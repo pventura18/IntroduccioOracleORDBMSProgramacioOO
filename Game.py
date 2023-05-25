@@ -81,46 +81,46 @@ while vm.estat=="playing":
             quit()
         elif evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_LEFT:
-                serp_direccio=[-1,0]
+                serp.direccio=[-1,0]
             elif evento.key == pygame.K_RIGHT:
-                serp_direccio=[1,0]
+                serp.direccio=[1,0]
             elif evento.key == pygame.K_UP:
-                serp_direccio=[0,-1]
+                serp.direccio=[0,-1]
             elif evento.key == pygame.K_DOWN:
-                serp_direccio=[0,1]
+                serp.direccio=[0,1]
 
     ##########
     # logica #
     ##########
 
     # colissió amb la poma
-    if poma_x==serp_x and poma_y==serp_y:
+    if poma.x==serp.x and poma.y==serp.y:
         #modificar la posció de la poma
-        poma_x=randrange(vm.grid_rows)
-        poma_y=randrange(vm.grid_columns)
+        poma.x=randrange(vm.grid_rows)
+        poma.y=randrange(vm.grid_columns)
         #afegir un tros de cua a la serp
-        serp_cua.append([0,0])
+        serp.cua.append([0,0])
         #en col·lissionar amb la poma incrementar el punts i incrementar la velocitat del joc
         vm.punts=vm.punts+1
         vm.FPS=vm.FPS+vm.incrFPS
 
     # moure el cap
-    pos_x = serp_x
-    pos_y = serp_y
-    serp_x=serp_x+serp_direccio[0]
-    serp_y=serp_y+serp_direccio[1]
+    pos_x = serp.x
+    pos_y = serp.y
+    serp.x=serp.x+serp.direccio[0]
+    serp.y=serp.y+serp.direccio[1]
 
     # moure la cua
-    for num in range(len(serp_cua)-1,-1,-1):
+    for num in range(len(serp.cua)-1,-1,-1):
         if num>0:
-            serp_cua[num][0]=serp_cua[num-1][0]
-            serp_cua[num][1]=serp_cua[num-1][1]
+            serp.cua[num][0]=serp.cua[num-1][0]
+            serp.cua[num][1]=serp.cua[num-1][1]
         else:
-            serp_cua[0][0]=pos_x
-            serp_cua[0][1]=pos_y
+            serp.cua[0][0]=pos_x
+            serp.cua[0][1]=pos_y
 
     # final de joc    
-    if serp_x<0 or serp_x>=vm.grid_rows or serp_y<0 or serp_y>=vm.grid_columns:
+    if serp.x<0 or serp.x>=vm.grid_rows or serp.y<0 or serp.y>=vm.grid_columns:
         vm.estat="end"
 
     ##########
@@ -131,13 +131,13 @@ while vm.estat=="playing":
     tauler.fill((0, 0, 25)) 
 
     #pintar la poma
-    tauler.blit(vm.getTile('poma'), (poma_x*vm.tile_width, poma_y*vm.tile_height)) 
+    tauler.blit(vm.getTile('poma'), (poma.x*vm.tile_width, poma.y*vm.tile_height)) 
 
     #pintar el cap de la serp
-    tauler.blit(vm.getTile('serp'), (serp_x*vm.tile_width, serp_y*vm.tile_height)) 
+    tauler.blit(vm.getTile('serp'), (serp.x*vm.tile_width, serp.y*vm.tile_height)) 
 
     #pintar la cua
-    for cua in serp_cua:
+    for cua in serp.cua:
         tauler.blit(vm.getTile('cua'), (cua[0]*vm.tile_width, cua[1]*vm.tile_height))
 
     # Aplicar el doble buffering        
